@@ -1,0 +1,13 @@
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\bin\Release\TwitchHelper.dll
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\bin\Release\TwitchHelper.pdb
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\bin\Release\HearthDb.dll
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\bin\Release\System.Windows.Interactivity.dll
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\obj\Release\Controls\SettingsWindow.baml
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\obj\Release\Controls\PluginMenu.g.cs
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\obj\Release\Controls\SettingsWindow.g.cs
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\obj\Release\TwitchHelper_MarkupCompile.cache
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\obj\Release\TwitchHelper_MarkupCompile.lref
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\obj\Release\Controls\PluginMenu.baml
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\obj\Release\TwitchHelper.g.resources
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\obj\Release\TwitchHelper.dll
+C:\Users\Adnan\Documents\GitHub\HDT.Plugins.TwitchHelper\HDT.Plugins.TwitchHelper\obj\Release\TwitchHelper.pdb

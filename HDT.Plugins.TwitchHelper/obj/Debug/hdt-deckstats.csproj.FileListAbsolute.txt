@@ -1,0 +1,16 @@
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\bin\Debug\hdt-deckstats.dll
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\bin\Debug\hdt-deckstats.pdb
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\bin\Debug\HearthDb.dll
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\obj\Debug\hdt-deckstats.csprojResolveAssemblyReference.cache
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\obj\Debug\hdt-deckstats.dll
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\obj\Debug\hdt-deckstats.pdb
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\bin\Debug\MahApps.Metro.dll
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\bin\Debug\MahApps.Metro.pdb
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\bin\Debug\MahApps.Metro.xml
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\obj\Debug\hdt-deckstats_MarkupCompile.cache
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\obj\Debug\hdt-deckstats.g.resources
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\obj\Debug\Controls\PluginMenu.g.cs
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\obj\Debug\hdt-deckstats_MarkupCompile.lref
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\obj\Debug\Controls\PluginMenu.baml
+C:\Users\Adnan\Documents\GitHub\hdt-deckstats\hdt-deckstats\obj\Debug\Controls\PluginSettings.g.cs
