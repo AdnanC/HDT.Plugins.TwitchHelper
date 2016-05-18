@@ -4,5 +4,5 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HDT.Plugins.TwitchHelper.Controls"
-             mc:Ignorable="d" Header="Write Win/Loss" Margin="0" Padding="0,5" Click="MenuItem_Click">
+             mc:Ignorable="d" Header="Twitch Helper" Margin="0" Padding="0,5" Click="MenuItem_Click">
 </MenuItem>

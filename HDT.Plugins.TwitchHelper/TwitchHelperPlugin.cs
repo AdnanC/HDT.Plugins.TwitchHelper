@@ -10,9 +10,10 @@ namespace HDT.Plugins.TwitchHelper
 {
     public class TwitchHelperPlugin : IPlugin
     {
-        private MenuItem _DeckStatsMenuItem;
+        private MenuItem _TwitchHelperMenuItem;
         private MainWindow _MainWindow = null;
-
+        private TwitchHelper _twitchHelper;
+        
         internal static string _PluginDataDir => Path.Combine(Hearthstone_Deck_Tracker.Config.Instance.DataDir, "TwitchHelper");
         internal static string _SettingsFile => Path.Combine(_PluginDataDir, "TwitchHelper.config.xml");
 
@@ -36,13 +37,13 @@ namespace HDT.Plugins.TwitchHelper
         public MenuItem MenuItem
         {
             //get { return null; }
-            get { return _DeckStatsMenuItem; }
+            get { return _TwitchHelperMenuItem; }
         }
 
         public string Name
         {
             get { return "Twitch Helper"; }
-        }        
+        }
 
         public void OnButtonPress()
         {            
@@ -52,18 +53,20 @@ namespace HDT.Plugins.TwitchHelper
         {
             try
             {
-                _DeckStatsMenuItem = new PluginMenu();
+                _TwitchHelperMenuItem = new PluginMenu();
 
                 plugingSettings.LoadSettings(_SettingsFile);
 
-                TwitchHelper twitchHelper = new TwitchHelper(plugingSettings);
+                plugingSettings.settingUpdated += new EventHandler(setttingsChanged);
 
-                _DeckStatsMenuItem.Click += (sender, args) =>
+                _twitchHelper = new TwitchHelper(plugingSettings);
+
+                _TwitchHelperMenuItem.Click += (sender, args) =>
                 {
                     try
                     {
                         _MainWindow = new MainWindow(plugingSettings);
-                        _MainWindow.Show();                        
+                        _MainWindow.Show();
                     }
                     catch(Exception ex)
                     {
@@ -71,13 +74,12 @@ namespace HDT.Plugins.TwitchHelper
                     }
                 };
                                 
-                GameEvents.OnGameLost.Add(twitchHelper.GameEnd);
-                GameEvents.OnGameWon.Add(twitchHelper.GameEnd);
-                GameEvents.OnGameTied.Add(twitchHelper.GameEnd);
-                //GameEvents.OnGameEnd.Add(publishStats.GameEnd);
-                GameEvents.OnGameStart.Add(twitchHelper.GameStart);
-                GameEvents.OnTurnStart.Add(twitchHelper.TurnStart);
-                DeckManagerEvents.OnDeckSelected.Add(twitchHelper.DeckSelected);
+                GameEvents.OnGameLost.Add(_twitchHelper.GameEnd);
+                GameEvents.OnGameWon.Add(_twitchHelper.GameEnd);
+                GameEvents.OnGameTied.Add(_twitchHelper.GameEnd);
+                GameEvents.OnGameStart.Add(_twitchHelper.GameStart);
+                GameEvents.OnTurnStart.Add(_twitchHelper.TurnStart);
+                DeckManagerEvents.OnDeckSelected.Add(_twitchHelper.DeckSelected);
             }
             catch(Exception ex)
             {
@@ -87,7 +89,7 @@ namespace HDT.Plugins.TwitchHelper
 
         public void OnUnload()
         {
-            plugingSettings.SaveSettings(_SettingsFile);
+                        
         }
 
         public void OnUpdate()
@@ -98,6 +100,11 @@ namespace HDT.Plugins.TwitchHelper
         public Version Version
         {
             get { return new Version(0, 0, 2); }
+        }
+
+        public void setttingsChanged(object s, EventArgs e)
+        {
+            _twitchHelper.GameEnd();
         }
     }
 }

@@ -1,23 +1,34 @@
 ﻿<Window x:Class="HDT.Plugins.TwitchHelper.Controls.MainWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                                          
-                      Height="400"
-                      Width="550"
-                      BorderThickness="2" WindowStyle="ToolWindow" Title="Twitch Helper" ResizeMode="NoResize">
+                      Height="600"
+                      Width="575"
+                      BorderThickness="2" Title="Twitch Helper" ResizeMode="NoResize" WindowStyle="ToolWindow">
     <Grid>
-        <RichTextBox x:Name="tbFileText" HorizontalAlignment="Left" Height="100" Margin="70,10,0,0" VerticalAlignment="Top" Width="335" BorderThickness="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <FlowDocument/>
-        </RichTextBox>
-        <Label x:Name="label" Content="File Text" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="55"/>
-        <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="401,209,0,0" VerticalAlignment="Top" Width="64" Click="btnSave_Click" FontSize="10"/>
-        <CheckBox x:Name="cbChangeImage" Content="Change Deck Image" Margin="70,137,0,0" Checked="cbChangeImage_Checked" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Top" Unchecked="cbChangeImage_Unchecked"/>
-        <TextBox x:Name="tbCurrentDeckImage" HorizontalAlignment="Left" Height="19" Margin="240,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="225" Text="current-deck.png" IsEnabled="False" ToolTip="File name for current Deck"/>
-        <Label x:Name="lbCurrentDeckFile" Content="Current Deck File Name" HorizontalAlignment="Left" Margin="235,115,0,0" VerticalAlignment="Top" Height="22" FontSize="11" IsEnabled="False"/>
-        <Button x:Name="btnDeckImagesFolder" Content="Browse" HorizontalAlignment="Left" Margin="410,169,0,0" VerticalAlignment="Top" Width="55" Click="btnDeckImagesFolder_Click" FontSize="10" IsEnabled="False"/>
-        <TextBox x:Name="tbDeckImagesFolder" HorizontalAlignment="Left" Height="20" Margin="112,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="293" IsEnabled="False"/>
-        <Label x:Name="lbDeckImagesFolder" Content="Deck Images Folder" HorizontalAlignment="Left" Margin="10,164,0,0" VerticalAlignment="Top" Height="26" FontSize="11" IsEnabled="False"/>
-        <Button x:Name="btnDeckName" Content="Deck Name" HorizontalAlignment="Left" Margin="410,10,0,0" VerticalAlignment="Top" Width="99" Click="btnDeckName_Click" FontSize="9"/>
-        <Button x:Name="btnWinLossString" Content="Win/Loss String" HorizontalAlignment="Left" Margin="410,31,0,0" VerticalAlignment="Top" Width="99" FontSize="9" Click="btnWinLossString_Click"/>
-        <Button x:Name="btnWinLossPercent" Content="Win/Loss Percent" HorizontalAlignment="Left" Margin="410,52,0,0" VerticalAlignment="Top" Width="99" FontSize="9" Click="btnWinLossPercent_Click"/>
+        <GroupBox x:Name="groupBox1" Header="Twitch File" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="266" Width="505" FontSize="10">
+
+
+        </GroupBox>
+        <TextBox x:Name="tbTwitchFileText" HorizontalAlignment="Left" Height="131" Margin="78,119,0,0" VerticalAlignment="Top" Width="327" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsEnabled="False"/>
+        <Label x:Name="lbTwitchFilename" Content="Filename" HorizontalAlignment="Left" VerticalAlignment="Top" Width="55" Margin="18,86,0,0" IsEnabled="False" FontSize="11"/>
+        <Button x:Name="btnTwitchFile" Content="..." HorizontalAlignment="Left" Margin="410,86,0,0" VerticalAlignment="Top" Width="22" Height="23" FontSize="10" Click="btnTwitchFile_Click" IsEnabled="False"/>
+        <GroupBox x:Name="groupBox" Header="Deck Images" HorizontalAlignment="Left" Height="157" Margin="10,305,0,0" VerticalAlignment="Top" Width="505" FontSize="9"/>
+        <Label x:Name="lbTwitchFileText" Content="File Text" HorizontalAlignment="Left" Margin="18,116,0,0" VerticalAlignment="Top" Width="55" FontSize="11" IsEnabled="False"/>
+        <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="445,488,0,0" VerticalAlignment="Top" Width="64" Click="btnSave_Click" FontSize="10"/>
+        <CheckBox x:Name="cbChangeImage" Content="Change Deck Image" Margin="39,352,0,0" Checked="cbChangeImage_Checked" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Top" Unchecked="cbChangeImage_Unchecked"/>
+        <TextBox x:Name="tbCurrentDeckImage" HorizontalAlignment="Left" Height="19" Margin="120,427,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="225" Text="current-deck.png" IsEnabled="False" ToolTip="File name for current Deck"/>
+        <Label x:Name="lbCurrentDeckFile" Content="Current Deck File Name" HorizontalAlignment="Left" Margin="114,405,0,0" VerticalAlignment="Top" Height="22" FontSize="11" IsEnabled="False"/>
+        <Button x:Name="btnDeckImagesFolder" Content="Browse" HorizontalAlignment="Left" Margin="418,383,0,0" VerticalAlignment="Top" Width="55" Click="btnDeckImagesFolder_Click" FontSize="10" IsEnabled="False"/>
+        <TextBox x:Name="tbDeckImagesFolder" HorizontalAlignment="Left" Height="20" Margin="120,382,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="293" IsEnabled="False"/>
+        <Label x:Name="lbDeckImagesFolder" Content="Deck Images Folder" HorizontalAlignment="Left" Margin="18,378,0,0" VerticalAlignment="Top" Height="26" FontSize="11" IsEnabled="False"/>
+        <Button x:Name="btnDeckName" Content="Deck Name" HorizontalAlignment="Left" Margin="410,151,0,0" VerticalAlignment="Top" Width="99" Click="btnDeckName_Click" FontSize="9" IsEnabled="False"/>
+        <Button x:Name="btnWinLossString" Content="Win/Loss String" HorizontalAlignment="Left" Margin="410,178,0,0" VerticalAlignment="Top" Width="99" FontSize="9" Click="btnWinLossString_Click" IsEnabled="False"/>
+        <Button x:Name="btnWinLossPercent" Content="Win/Loss Percent" HorizontalAlignment="Left" Margin="410,206,0,0" VerticalAlignment="Top" Width="99" FontSize="9" Click="btnWinLossPercent_Click" IsEnabled="False"/>
+        <Button x:Name="btnCurrentDeckFile" Content="..." HorizontalAlignment="Left" Margin="351,427,0,0" VerticalAlignment="Top" Width="22" Height="19" Click="btnCurrentDeckFile_Click" IsEnabled="False"/>
+        <TextBlock x:Name="tbError" HorizontalAlignment="Left" Margin="10,467,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="499" Foreground="#FFF36060"/>
+        <TextBox x:Name="tbTwitchFilename" HorizontalAlignment="Left" Height="23" Margin="78,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="327" IsEnabled="False"/>
+        <CheckBox x:Name="cbTwitchFile" Content="Write to File" HorizontalAlignment="Left" Margin="39,63,0,0" VerticalAlignment="Top" Checked="cbTwitchFile_Checked" Unchecked="cbTwitchFile_Unchecked"/>
+
+
     </Grid>
 </Window>

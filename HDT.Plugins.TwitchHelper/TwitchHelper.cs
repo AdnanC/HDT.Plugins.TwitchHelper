@@ -4,6 +4,10 @@ using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using HearthDb.Enums;
 using Hearthstone_Deck_Tracker;
 using Hearthstone_Deck_Tracker.Enums;
@@ -42,17 +46,30 @@ namespace HDT.Plugins.TwitchHelper
         internal void DeckSelected(Deck deck)
         {
             try
-            {
+            {                
                 if (_appSettings.changeImage)
                 {
-                    string deckImageLocation = _appSettings.deckImagesLocation;
-                    string selectedDeckFilename = deckImageLocation + deck.Name + ".png";
-                    string currentDeckFilename = deckImageLocation + _appSettings.currentDeckFilename;
-
-                    Log.Info("Changing Deck Image: " + selectedDeckFilename + " => " + currentDeckFilename);
-                    if (File.Exists(selectedDeckFilename))
+                    if (DeckList.Instance.ActiveDeck.DeckId == deck.DeckId)
                     {
-                        File.Copy(selectedDeckFilename, currentDeckFilename, true);
+                        string deckImagesLocation = _appSettings.deckImagesLocation;
+                        string selectedDeckFilename = Path.Combine(deckImagesLocation, deck.Name + ".png");
+                        string currentDeckFilename = Path.Combine(deckImagesLocation, _appSettings.currentDeckFilename);
+
+
+                        if (DeckList.Instance.ActiveDeck != null)
+                        {
+                            Log.Info("Changing Deck Image: " + selectedDeckFilename + " => " + currentDeckFilename);
+                            if (File.Exists(selectedDeckFilename))
+                            {
+                                Image.FromFile(selectedDeckFilename).Save(currentDeckFilename, ImageFormat.Png);
+                            }
+                            else
+                                Properties.Resources.blank.Save(currentDeckFilename, ImageFormat.Png);
+                        }
+                        else
+                        {
+                            Properties.Resources.blank.Save(currentDeckFilename, ImageFormat.Png);
+                        }
                     }
                 }
                 writeFile();
@@ -61,6 +78,31 @@ namespace HDT.Plugins.TwitchHelper
             {
                 Log.Error(ex);
             }
+        }
+
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
         }
 
         internal void TurnStart(ActivePlayer currentPlayer)
@@ -125,36 +167,44 @@ namespace HDT.Plugins.TwitchHelper
             {
                 var mana = opp.GetTag(GameTag.RESOURCES);
                 var overload = opp.GetTag(GameTag.OVERLOAD_OWED);
-                // looking a turn ahead, so add one mana
                 _mana = mana + 1 - overload;
             }
             return _mana;
         }
-        private void writeFile()
+        private async void writeFile()
         {
+            await PutTaskDelay();
             try
             {
-                if (DeckList.Instance.ActiveDeck != null)
+                if (_appSettings.twitchFile)
                 {
-                    string sfilePath = _appSettings.statsFileLocation;
+                    if (DeckList.Instance.ActiveDeck != null)
+                    {
+                        string sfilePath = _appSettings.twitchFilename;
 
-                    string sWinLossString = DeckList.Instance.ActiveDeck.WinLossString;
-                    string sWinLossPercent = DeckList.Instance.ActiveDeck.WinPercentString;
-                    string sDeckName = DeckList.Instance.ActiveDeck.Name;
+                        string sDeckName = DeckList.Instance.ActiveDeck.Name;
+                        string sWinLossString = DeckList.Instance.ActiveDeck.WinLossString;
+                        string sWinLossPercent = DeckList.Instance.ActiveDeck.WinPercentString;
 
-                    string sFileText = _appSettings.statsFileText;
+                        string sFileText = _appSettings.twitchFileText;
 
-                    sFileText = sFileText.Replace("{DeckName}", sDeckName);
-                    sFileText = sFileText.Replace("{WinLoss}", sWinLossString);
-                    sFileText = sFileText.Replace("{WinLossPercent}", sWinLossPercent);
+                        sFileText = sFileText.Replace("{DeckName}", sDeckName);
+                        sFileText = sFileText.Replace("{WinLoss}", sWinLossString);
+                        sFileText = sFileText.Replace("{WinLossPercent}", sWinLossPercent);
 
-                    File.WriteAllText(sfilePath, sFileText);
+                        File.WriteAllText(sfilePath, sFileText);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Log.Error(ex);
             }
+        }
+
+        async Task PutTaskDelay()
+        {
+            await Task.Delay(2000);
         }
     }
 }
