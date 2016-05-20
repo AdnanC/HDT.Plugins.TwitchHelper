@@ -1,17 +1,20 @@
-﻿using System.Windows.Forms;
+﻿using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 using System.Windows.Media;
-using System.IO;
-using System.Windows.Documents;
+using System.Collections.ObjectModel;
+using Hearthstone_Deck_Tracker;
+using Hearthstone_Deck_Tracker.Hearthstone;
 
 namespace HDT.Plugins.TwitchHelper.Controls
 {
-    public partial class MainWindow
+    public partial class THMainWindow
     {
         private PluginSettings _appSettings;
         private Brush _defaultBorderBrush;
         private Brush _errorBrush;
 
-        public MainWindow(PluginSettings settings)
+        public THMainWindow(PluginSettings settings)
         {
             InitializeComponent();
 
@@ -25,6 +28,20 @@ namespace HDT.Plugins.TwitchHelper.Controls
             tbDeckImagesFolder.Text = _appSettings.deckImagesLocation;
             tbCurrentDeckImage.Text = _appSettings.currentDeckFilename;
             cbChangeImage.IsChecked = _appSettings.changeImage;
+
+            ObservableCollection<Deck> deckList = DeckList.Instance.Decks;
+            lbDecks.Items.Clear();
+
+            foreach (var deck in deckList.Where(
+                                                    d => !d.IsArenaDeck &&
+                                                    !d.Archived
+                                                ).OrderBy(d => d.Class))
+            {
+                lbDecks.Items.Add(deck);
+
+                if (_appSettings.selectedDecks.Exists(d => d.DeckId == deck.DeckId))
+                    lbDecks.SelectedItems.Add(deck);
+            }            
         }
 
         private void tbFileText_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -61,6 +78,13 @@ namespace HDT.Plugins.TwitchHelper.Controls
             _appSettings.twitchFilename = tbTwitchFilename.Text.Trim();
             _appSettings.currentDeckFilename = tbCurrentDeckImage.Text.Trim();
             _appSettings.deckImagesLocation = tbDeckImagesFolder.Text.Trim();
+
+            _appSettings.selectedDecks.Clear();
+
+            foreach (Deck selectedDeck in lbDecks.SelectedItems)
+            {
+                _appSettings.selectedDecks.Add(selectedDeck);
+            }
 
             _appSettings.SaveSettings(TwitchHelperPlugin._SettingsFile);
         }
@@ -103,29 +127,29 @@ namespace HDT.Plugins.TwitchHelper.Controls
 
         private void btnDeckName_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var selectionIndex = tbTwitchFileText.SelectionStart;
-            tbTwitchFileText.Text = tbTwitchFileText.Text.Insert(tbTwitchFileText.SelectionStart, "{DeckName}");
-            tbTwitchFileText.SelectionStart = selectionIndex + "{DeckName}".Length;
+            var selectionIndex = tbDeckStatsString.SelectionStart;
+            tbDeckStatsString.Text = tbDeckStatsString.Text.Insert(tbDeckStatsString.SelectionStart, "{DeckName}");
+            tbDeckStatsString.SelectionStart = selectionIndex + "{DeckName}".Length;
 
-            tbTwitchFileText.Focus();
+            tbDeckStatsString.Focus();
         }
 
         private void btnWinLossString_Click(object sender, System.Windows.RoutedEventArgs e)
         {            
-            var selectionIndex = tbTwitchFileText.SelectionStart;
-            tbTwitchFileText.Text = tbTwitchFileText.Text.Insert(tbTwitchFileText.SelectionStart, "{WinLoss}");
-            tbTwitchFileText.SelectionStart = selectionIndex + "{WinLoss}".Length;
+            var selectionIndex = tbDeckStatsString.SelectionStart;
+            tbDeckStatsString.Text = tbDeckStatsString.Text.Insert(tbDeckStatsString.SelectionStart, "{WinLoss}");
+            tbDeckStatsString.SelectionStart = selectionIndex + "{WinLoss}".Length;
 
-            tbTwitchFileText.Focus();
+            tbDeckStatsString.Focus();
         }
 
         private void btnWinLossPercent_Click(object sender, System.Windows.RoutedEventArgs e)
         {            
-            var selectionIndex = tbTwitchFileText.SelectionStart;
-            tbTwitchFileText.Text = tbTwitchFileText.Text.Insert(tbTwitchFileText.SelectionStart, "{WinLossPercent}");
-            tbTwitchFileText.SelectionStart = selectionIndex + "{WinLossPercent}".Length;
+            var selectionIndex = tbDeckStatsString.SelectionStart;
+            tbDeckStatsString.Text = tbDeckStatsString.Text.Insert(tbDeckStatsString.SelectionStart, "{WinLossPercent}");
+            tbDeckStatsString.SelectionStart = selectionIndex + "{WinLossPercent}".Length;
 
-            tbTwitchFileText.Focus();
+            tbDeckStatsString.Focus();
         }
 
         private void btnCurrentDeckFile_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -179,6 +203,9 @@ namespace HDT.Plugins.TwitchHelper.Controls
             btnDeckName.IsEnabled = true;
             btnWinLossPercent.IsEnabled = true;
             btnWinLossString.IsEnabled = true;
+            tbDeckStatsString.IsEnabled = true;
+            lbDeckString.IsEnabled = true;
+            lbDecks.IsEnabled = true;
 
             _appSettings.twitchFile = true;
         }
@@ -193,8 +220,16 @@ namespace HDT.Plugins.TwitchHelper.Controls
             btnDeckName.IsEnabled = false;
             btnWinLossPercent.IsEnabled = false;
             btnWinLossString.IsEnabled = false;
+            tbDeckStatsString.IsEnabled = false;
+            lbDeckString.IsEnabled = false;
+            lbDecks.IsEnabled = false;
 
             _appSettings.twitchFile = false;
+        }
+
+        private void lbDecks_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            
         }
     }
 }

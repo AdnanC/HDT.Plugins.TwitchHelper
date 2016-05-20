@@ -11,7 +11,7 @@ namespace HDT.Plugins.TwitchHelper
     public class TwitchHelperPlugin : IPlugin
     {
         private MenuItem _TwitchHelperMenuItem;
-        private MainWindow _MainWindow = null;
+        private THMainWindow _MainWindow = null;
         private TwitchHelper _twitchHelper;
         
         internal static string _PluginDataDir => Path.Combine(Hearthstone_Deck_Tracker.Config.Instance.DataDir, "TwitchHelper");
@@ -65,7 +65,7 @@ namespace HDT.Plugins.TwitchHelper
                 {
                     try
                     {
-                        _MainWindow = new MainWindow(plugingSettings);
+                        _MainWindow = new THMainWindow(plugingSettings);
                         _MainWindow.Show();
                     }
                     catch(Exception ex)
@@ -80,6 +80,8 @@ namespace HDT.Plugins.TwitchHelper
                 GameEvents.OnGameStart.Add(_twitchHelper.GameStart);
                 GameEvents.OnTurnStart.Add(_twitchHelper.TurnStart);
                 DeckManagerEvents.OnDeckSelected.Add(_twitchHelper.DeckSelected);
+                DeckManagerEvents.OnDeckUpdated.Add(_twitchHelper.DeckSelected);                
+                
             }
             catch(Exception ex)
             {
@@ -99,7 +101,7 @@ namespace HDT.Plugins.TwitchHelper
 
         public Version Version
         {
-            get { return new Version(0, 0, 2); }
+            get { return new Version(0, 0, 3); }
         }
 
         public void setttingsChanged(object s, EventArgs e)

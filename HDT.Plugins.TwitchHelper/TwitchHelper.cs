@@ -46,35 +46,34 @@ namespace HDT.Plugins.TwitchHelper
         internal void DeckSelected(Deck deck)
         {
             try
-            {                
+            {
+                //change deck image file       
                 if (_appSettings.changeImage)
                 {
-                    if (DeckList.Instance.ActiveDeck.DeckId == deck.DeckId)
+                    string deckImagesLocation = _appSettings.deckImagesLocation;
+                    string selectedDeckFilename = Path.Combine(deckImagesLocation, deck.Name + ".png");
+                    string currentDeckFilename = Path.Combine(deckImagesLocation, _appSettings.currentDeckFilename);
+
+                    if (DeckList.Instance.ActiveDeck != null && DeckList.Instance.ActiveDeck.DeckId == deck.DeckId)
                     {
-                        string deckImagesLocation = _appSettings.deckImagesLocation;
-                        string selectedDeckFilename = Path.Combine(deckImagesLocation, deck.Name + ".png");
-                        string currentDeckFilename = Path.Combine(deckImagesLocation, _appSettings.currentDeckFilename);
-
-
-                        if (DeckList.Instance.ActiveDeck != null)
+                        Log.Info("Changing Deck Image: " + selectedDeckFilename + " => " + currentDeckFilename);
+                        if (File.Exists(selectedDeckFilename))
                         {
-                            Log.Info("Changing Deck Image: " + selectedDeckFilename + " => " + currentDeckFilename);
-                            if (File.Exists(selectedDeckFilename))
-                            {
-                                Image.FromFile(selectedDeckFilename).Save(currentDeckFilename, ImageFormat.Png);
-                            }
-                            else
-                                Properties.Resources.blank.Save(currentDeckFilename, ImageFormat.Png);
+                            Image.FromFile(selectedDeckFilename).Save(currentDeckFilename, ImageFormat.Png);
                         }
                         else
-                        {
                             Properties.Resources.blank.Save(currentDeckFilename, ImageFormat.Png);
-                        }
+                    }
+                    else
+                    {
+                        Properties.Resources.blank.Save(currentDeckFilename, ImageFormat.Png);
                     }
                 }
+
+                // write Win/Loss to file
                 writeFile();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error(ex);
             }
@@ -187,10 +186,32 @@ namespace HDT.Plugins.TwitchHelper
                         string sWinLossPercent = DeckList.Instance.ActiveDeck.WinPercentString;
 
                         string sFileText = _appSettings.twitchFileText;
+                        string sDeckStatsString = _appSettings.twitchDeckStatsString;
 
-                        sFileText = sFileText.Replace("{DeckName}", sDeckName);
-                        sFileText = sFileText.Replace("{WinLoss}", sWinLossString);
-                        sFileText = sFileText.Replace("{WinLossPercent}", sWinLossPercent);
+                        string selectDecksStats = "";
+                        string activeDeckStats = "";
+                        string tempStats = "";
+
+                        tempStats = sDeckStatsString;
+                        tempStats = tempStats.Replace("{DeckName}", sDeckName);
+                        tempStats = tempStats.Replace("{WinLoss}", sWinLossString);
+                        tempStats = tempStats.Replace("{WinLossPercent}", sWinLossPercent);
+                        activeDeckStats = tempStats;
+
+                        foreach (Deck deck in _appSettings.selectedDecks)
+                        {
+                            if (deck.DeckId != DeckList.Instance.ActiveDeck.DeckId)
+                            {
+                                tempStats = sDeckStatsString;
+                                tempStats = tempStats.Replace("{DeckName}", deck.Name);
+                                tempStats = tempStats.Replace("{WinLoss}", deck.WinLossString);
+                                tempStats = tempStats.Replace("{WinLossPercent}", deck.WinPercentString);
+                                selectDecksStats += tempStats + "\n";
+                            }
+                        }
+
+                        sFileText = sFileText.Replace("{ActiveDeck}", activeDeckStats);
+                        sFileText = sFileText.Replace("{SelectedDecks}", selectDecksStats.TrimEnd('\r', '\n'));
 
                         File.WriteAllText(sfilePath, sFileText);
                     }
@@ -204,7 +225,7 @@ namespace HDT.Plugins.TwitchHelper
 
         async Task PutTaskDelay()
         {
-            await Task.Delay(2000);
+            await Task.Delay(500);
         }
     }
 }
